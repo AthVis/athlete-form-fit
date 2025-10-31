@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,8 +29,12 @@ const AppTopBar = () => {
               AV
             </div>
             <div className="leading-tight">
-              <span className="block text-sm font-semibold text-foreground">AthleteVision</span>
-              <span className="block text-[11px] text-muted-foreground">Training & Balance</span>
+              <span className="block text-sm font-semibold text-foreground">
+                AthleteVision
+              </span>
+              <span className="block text-[11px] text-muted-foreground">
+                Training & Balance
+              </span>
             </div>
           </button>
 
@@ -36,7 +44,7 @@ const AppTopBar = () => {
               size="sm"
               className={cn(
                 "rounded-full px-4",
-                isAnalysis && "text-primary hover:text-primary"
+                isAnalysis && "text-primary hover:text-primary",
               )}
               onClick={() => navigate("/analysis")}
             >
@@ -64,7 +72,11 @@ const AppTopBar = () => {
                 <Plus className="h-5 w-5" />
               </Button>
             </HoverCardTrigger>
-            <HoverCardContent side="bottom" align="end" className="w-56 border-border bg-card/95 p-2">
+            <HoverCardContent
+              side="bottom"
+              align="end"
+              className="w-56 border-border bg-card/95 p-2"
+            >
               <button
                 type="button"
                 onClick={() => navigate("/data-input")}
@@ -75,9 +87,16 @@ const AppTopBar = () => {
             </HoverCardContent>
           </HoverCard>
 
-          <button type="button" onClick={() => navigate("/profile")} className="rounded-full">
+          <button
+            type="button"
+            onClick={() => navigate("/profile")}
+            className="rounded-full"
+          >
             <Avatar className="h-10 w-10 border border-border">
-              <AvatarImage src="https://i.pravatar.cc/100?img=12" alt="Profil" />
+              <AvatarImage
+                src="https://i.pravatar.cc/100?img=12"
+                alt="Profil"
+              />
               <AvatarFallback>AV</AvatarFallback>
             </Avatar>
           </button>

@@ -17,20 +17,29 @@ const LoginPlaceholder = () => {
               AV
             </div>
             <div className="leading-tight">
-              <span className="block text-base font-semibold text-foreground">AthleteVision</span>
-              <span className="block text-xs text-muted-foreground">Personal Training Companion</span>
+              <span className="block text-base font-semibold text-foreground">
+                AthleteVision
+              </span>
+              <span className="block text-xs text-muted-foreground">
+                Personal Training Companion
+              </span>
             </div>
           </button>
-          <Button variant="outline" onClick={() => navigate("/dashboard")}>Zum Dashboard</Button>
+          <Button variant="outline" onClick={() => navigate("/dashboard")}>
+            Zum Dashboard
+          </Button>
         </div>
       </header>
 
       <main className="container mx-auto flex flex-col items-center justify-center gap-6 px-6 py-24 text-center">
         <div className="space-y-4">
-          <h1 className="text-3xl font-bold text-foreground">Login bald verfügbar</h1>
+          <h1 className="text-3xl font-bold text-foreground">
+            Login bald verfügbar
+          </h1>
           <p className="max-w-xl text-lg text-muted-foreground">
-            Wir arbeiten an einer sicheren Anmeldung, damit du dein Training jederzeit abrufen kannst. Trag dich ein,
-            um als erstes informiert zu werden, sobald die Funktion freigeschaltet ist.
+            Wir arbeiten an einer sicheren Anmeldung, damit du dein Training
+            jederzeit abrufen kannst. Trag dich ein, um als erstes informiert zu
+            werden, sobald die Funktion freigeschaltet ist.
           </p>
         </div>
         <Button onClick={() => navigate("/dashboard")} size="lg">
