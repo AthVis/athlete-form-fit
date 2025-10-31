@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Activity, TrendingUp, Shield, Plus, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { loadMetrics, loadSessions } from "@/lib/athleteVision";
+import { loadMetrics, loadSessions, loadUserProfile, type UserProfile } from "@/lib/athleteVision";
+import { SPORT_LABELS, type SportType } from "@/lib/sports";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const sessions = loadSessions();
     return sessions.slice(-3).reverse();
   });
+  const [profile, setProfile] = useState<UserProfile | null>(() => loadUserProfile());
 
   useEffect(() => {
     // Refresh data when page becomes visible
@@ -20,6 +22,7 @@ const Dashboard = () => {
       setMetrics(loadMetrics());
       const sessions = loadSessions();
       setRecentSessions(sessions.slice(-3).reverse());
+      setProfile(loadUserProfile());
     };
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
@@ -52,6 +55,9 @@ const Dashboard = () => {
               <p className="text-muted-foreground">Performance & Prevention Dashboard</p>
             </div>
             <div className="flex gap-3">
+              <Button variant="outline" onClick={() => navigate("/user-setup")}>
+                Athlete Profile
+              </Button>
               <Button onClick={() => navigate("/data-input")} className="gap-2">
                 <Plus className="h-4 w-4" />
                 Add Training
@@ -67,6 +73,20 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
+        {!profile && (
+          <Card className="mb-6 border-dashed border-primary/40 bg-primary/5">
+            <CardContent className="py-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-primary">Complete your athlete setup</h2>
+                <p className="text-sm text-primary/80">
+                  Tell us about your sport, goals and availability to personalize plans and recommendations.
+                </p>
+              </div>
+              <Button onClick={() => navigate("/user-setup")}>Create Profile</Button>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Metrics Cards */}
         <div className="grid gap-6 md:grid-cols-3 mb-8">
           {/* Training Load Card */}
@@ -127,9 +147,46 @@ const Dashboard = () => {
         </div>
 
         {/* Action Cards */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Recent Activity */}
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           <Card>
+            <CardHeader>
+              <CardTitle>Athlete Profile</CardTitle>
+              <CardDescription>{profile ? "Your saved sport focus" : "Set up your preferences"}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {profile ? (
+                <div className="space-y-3 text-sm text-muted-foreground">
+                  <div>
+                    <span className="font-semibold text-foreground">Sport:</span> {SPORT_LABELS[profile.sport as SportType]}
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Goal:</span> {profile.primaryGoal}
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Experience:</span> {profile.experienceLevel}
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Available Days:</span> {profile.availableDays.join(", ") || "Not set"}
+                  </div>
+                  {profile.focusNotes && (
+                    <div>
+                      <span className="font-semibold text-foreground">Notes:</span> {profile.focusNotes}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Create your athlete profile to help the rule engine weight load, risk and recovery recommendations.
+                </p>
+              )}
+              <Button variant="secondary" className="w-full" onClick={() => navigate("/user-setup")}>
+                {profile ? "Update Profile" : "Start Setup"}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Recent Activity */}
+          <Card className="xl:col-span-1">
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
               <CardDescription>Your last training sessions</CardDescription>
@@ -157,7 +214,7 @@ const Dashboard = () => {
           </Card>
 
           {/* Improvement Plan CTA */}
-          <Card className="bg-gradient-primary text-primary-foreground">
+          <Card className="bg-gradient-primary text-primary-foreground xl:col-span-1">
             <CardHeader>
               <CardTitle>Ready for Your Next Plan?</CardTitle>
               <CardDescription className="text-primary-foreground/80">

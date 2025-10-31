@@ -9,6 +9,7 @@ import Analysis from "./pages/Analysis";
 import ImprovementPlan from "./pages/ImprovementPlan";
 import Feedback from "./pages/Feedback";
 import NotFound from "./pages/NotFound";
+import UserSetup from "./pages/UserSetup";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/improvement-plan" element={<ImprovementPlan />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/user-setup" element={<UserSetup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
