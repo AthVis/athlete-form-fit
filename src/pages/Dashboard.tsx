@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Activity, TrendingUp, Shield, Plus, BarChart3 } from "lucide-react";
+import { Activity, TrendingUp, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { loadMetrics, loadSessions, loadUserProfile, type UserProfile } from "@/lib/athleteVision";
 import { SPORT_LABELS, type SportType } from "@/lib/sports";
+import AppTopBar from "@/components/layout/AppTopBar";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -46,30 +47,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">AthleteVision</h1>
-              <p className="text-muted-foreground">Performance & Prevention Dashboard</p>
-            </div>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => navigate("/user-setup")}>
-                Athlete Profile
-              </Button>
-              <Button onClick={() => navigate("/data-input")} className="gap-2">
-                <Plus className="h-4 w-4" />
-                Add Training
-              </Button>
-              <Button variant="outline" onClick={() => navigate("/analysis")} className="gap-2">
-                <BarChart3 className="h-4 w-4" />
-                Analysis
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppTopBar />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
@@ -82,7 +60,7 @@ const Dashboard = () => {
                   Tell us about your sport, goals and availability to personalize plans and recommendations.
                 </p>
               </div>
-              <Button onClick={() => navigate("/user-setup")}>Create Profile</Button>
+              <Button onClick={() => navigate("/profile")}>Create Profile</Button>
             </CardContent>
           </Card>
         )}
@@ -179,7 +157,7 @@ const Dashboard = () => {
                   Create your athlete profile to help the rule engine weight load, risk and recovery recommendations.
                 </p>
               )}
-              <Button variant="secondary" className="w-full" onClick={() => navigate("/user-setup")}>
+              <Button variant="secondary" className="w-full" onClick={() => navigate("/profile")}>
                 {profile ? "Update Profile" : "Start Setup"}
               </Button>
             </CardContent>
