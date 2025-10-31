@@ -1,4 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { SportType } from "@/lib/sports";
+import { EXPERIENCE_LEVELS } from "@/lib/sports";
 
 export interface TrainingSession {
   date: string;
@@ -36,6 +38,27 @@ export interface PlanResponse {
   reason: string;
   week_plan: DayPlan[];
   metrics: AnalyzeResponse;
+  requested_goal?: string;
+  effective_goal?: string;
+  adjustments?: string[];
+  profile_snapshot?: UserProfile;
+  feedback_snapshot?: WeeklyFeedback;
+}
+
+export interface UserProfile {
+  sport: SportType;
+  primaryGoal: string;
+  experienceLevel: (typeof EXPERIENCE_LEVELS)[number];
+  availableDays: string[];
+  focusNotes?: string;
+}
+
+export interface WeeklyFeedback {
+  date: string;
+  fatigue: number;
+  pain: number;
+  difficulty: "too-easy" | "just-right" | "too-hard";
+  notes?: string;
 }
 
 export async function analyzeTraining(
@@ -68,6 +91,8 @@ export async function generatePlan(
 const SESSIONS_KEY = 'athletevision_sessions';
 const METRICS_KEY = 'athletevision_metrics';
 const PLAN_KEY = 'athletevision_plan';
+const PROFILE_KEY = 'athletevision_profile';
+const FEEDBACK_KEY = 'athletevision_feedback';
 
 export function saveSessions(sessions: TrainingSession[]): void {
   localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
@@ -94,6 +119,31 @@ export function savePlan(plan: PlanResponse): void {
 export function loadPlan(): PlanResponse | null {
   const data = localStorage.getItem(PLAN_KEY);
   return data ? JSON.parse(data) : null;
+}
+
+export function saveUserProfile(profile: UserProfile): void {
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+}
+
+export function loadUserProfile(): UserProfile | null {
+  const data = localStorage.getItem(PROFILE_KEY);
+  return data ? JSON.parse(data) : null;
+}
+
+export function saveFeedbackEntry(entry: WeeklyFeedback): void {
+  const existing = loadFeedbackHistory();
+  const updated = [entry, ...existing];
+  localStorage.setItem(FEEDBACK_KEY, JSON.stringify(updated));
+}
+
+export function loadFeedbackHistory(): WeeklyFeedback[] {
+  const data = localStorage.getItem(FEEDBACK_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+export function loadLatestFeedback(): WeeklyFeedback | null {
+  const history = loadFeedbackHistory();
+  return history.length > 0 ? history[0] : null;
 }
 
 // CSV parsing

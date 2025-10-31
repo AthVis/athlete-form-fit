@@ -1,34 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import { SPORT_GOALS, SPORT_LABELS, type SportType } from "@/lib/sports";
 
 interface PlanGeneratorDialogProps {
   onGenerate: (sport: string, goal: string) => Promise<void>;
   loading: boolean;
   children: React.ReactNode;
+  defaultSport?: SportType;
+  defaultGoal?: string;
 }
 
-const SPORT_GOALS = {
-  Running: ["Endurance", "Technique", "Prevention"],
-  Strength: ["Power", "Hypertrophy", "Prevention"],
-  Football: ["Endurance", "Technique", "Prevention"],
-  Basketball: ["Explosiveness", "Technique", "Prevention"],
-};
-
-export function PlanGeneratorDialog({ onGenerate, loading, children }: PlanGeneratorDialogProps) {
+export function PlanGeneratorDialog({ onGenerate, loading, children, defaultSport = "Running", defaultGoal }: PlanGeneratorDialogProps) {
   const [open, setOpen] = useState(false);
-  const [sport, setSport] = useState("Running");
-  const [goal, setGoal] = useState("Endurance");
+  const [sport, setSport] = useState<SportType>(defaultSport);
+  const [goal, setGoal] = useState(defaultGoal || SPORT_GOALS[defaultSport][0]);
+
+  useEffect(() => {
+    if (open) {
+      setSport(defaultSport);
+      const goals = SPORT_GOALS[defaultSport];
+      setGoal(defaultGoal && goals.includes(defaultGoal) ? defaultGoal : goals[0]);
+    }
+  }, [open, defaultSport, defaultGoal]);
 
   const handleSubmit = async () => {
     await onGenerate(sport, goal);
     setOpen(false);
   };
 
-  const availableGoals = SPORT_GOALS[sport as keyof typeof SPORT_GOALS] || SPORT_GOALS.Running;
+  const availableGoals = SPORT_GOALS[sport] || SPORT_GOALS.Running;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -45,10 +49,11 @@ export function PlanGeneratorDialog({ onGenerate, loading, children }: PlanGener
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="plan-sport">Sport</Label>
-            <Select value={sport} onValueChange={(value) => { 
-              setSport(value);
+            <Select value={sport} onValueChange={(value) => {
+              const typedValue = value as SportType;
+              setSport(typedValue);
               // Reset goal when sport changes
-              const newGoals = SPORT_GOALS[value as keyof typeof SPORT_GOALS];
+              const newGoals = SPORT_GOALS[typedValue];
               if (newGoals && !newGoals.includes(goal)) {
                 setGoal(newGoals[0]);
               }
@@ -57,10 +62,11 @@ export function PlanGeneratorDialog({ onGenerate, loading, children }: PlanGener
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Running">Running</SelectItem>
-                <SelectItem value="Strength">Strength Training</SelectItem>
-                <SelectItem value="Football">Football</SelectItem>
-                <SelectItem value="Basketball">Basketball</SelectItem>
+                {(Object.keys(SPORT_GOALS) as SportType[]).map(option => (
+                  <SelectItem key={option} value={option}>
+                    {SPORT_LABELS[option]}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

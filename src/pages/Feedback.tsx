@@ -7,16 +7,26 @@ import { Slider } from "@/components/ui/slider";
 import { ArrowLeft, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { saveFeedbackEntry } from "@/lib/athleteVision";
 
 const Feedback = () => {
   const navigate = useNavigate();
   const [fatigue, setFatigue] = useState([5]);
   const [pain, setPain] = useState([2]);
+  const [notes, setNotes] = useState("");
+  const [difficulty, setDifficulty] = useState<"too-easy" | "just-right" | "too-hard">("just-right");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Feedback submitted! Your next plan will be adjusted.");
-    navigate("/");
+    saveFeedbackEntry({
+      date: new Date().toISOString(),
+      fatigue: fatigue[0],
+      pain: pain[0],
+      notes: notes.trim() || undefined,
+      difficulty,
+    });
+    toast.success("Feedback saved! We'll adjust your next plan.");
+    navigate("/improvement-plan");
   };
 
   return (
@@ -94,6 +104,8 @@ const Feedback = () => {
                 <Label htmlFor="notes">Additional Notes (Optional)</Label>
                 <Textarea
                   id="notes"
+                  value={notes}
+                  onChange={(event) => setNotes(event.target.value)}
                   placeholder="Any specific issues, achievements, or observations from this week..."
                   rows={5}
                   className="resize-none"
@@ -107,15 +119,30 @@ const Feedback = () => {
               <div className="space-y-2">
                 <Label>How challenging was this week's plan?</Label>
                 <div className="grid grid-cols-3 gap-3">
-                  <Button type="button" variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <Button
+                    type="button"
+                    variant={difficulty === "too-easy" ? "default" : "outline"}
+                    className="h-auto py-4 flex flex-col gap-2"
+                    onClick={() => setDifficulty("too-easy")}
+                  >
                     <span className="text-2xl">😊</span>
                     <span className="text-xs">Too Easy</span>
                   </Button>
-                  <Button type="button" variant="outline" className="h-auto py-4 flex flex-col gap-2 border-primary bg-primary/5">
+                  <Button
+                    type="button"
+                    variant={difficulty === "just-right" ? "default" : "outline"}
+                    className="h-auto py-4 flex flex-col gap-2"
+                    onClick={() => setDifficulty("just-right")}
+                  >
                     <span className="text-2xl">💪</span>
                     <span className="text-xs">Just Right</span>
                   </Button>
-                  <Button type="button" variant="outline" className="h-auto py-4 flex flex-col gap-2">
+                  <Button
+                    type="button"
+                    variant={difficulty === "too-hard" ? "default" : "outline"}
+                    className="h-auto py-4 flex flex-col gap-2"
+                    onClick={() => setDifficulty("too-hard")}
+                  >
                     <span className="text-2xl">😰</span>
                     <span className="text-xs">Too Hard</span>
                   </Button>
