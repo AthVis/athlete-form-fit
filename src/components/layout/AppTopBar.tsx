@@ -33,7 +33,7 @@ const AppTopBar = () => {
                 AthleteVision
               </span>
               <span className="block text-[11px] text-muted-foreground">
-                Training & Balance
+                Personal Training Companion
               </span>
             </div>
           </button>

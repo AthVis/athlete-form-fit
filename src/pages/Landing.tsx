@@ -175,17 +175,17 @@ const Landing = () => {
                 Dein smarter Trainingsbuddy
               </Badge>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                Deine moderne Plattform für{" "}
-                <span className="text-primary">datengetriebene</span>{" "}
+                Dein persönlicher Trainings-Companion für{" "}
+                <span className="text-primary">balancierte</span>{" "}
                 <span className="rounded-md bg-accent/20 px-2 text-accent">
-                  Fitness-Routinen
+                  Alltagssessions
                 </span>
                 .
               </h1>
               <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-                AthleteVision bündelt Workouts, Erholung und Motivation in einer
-                App. Insights, Alerts und Routinen passen sich deinem Alltag an
-                – ohne komplizierte Tools.
+                AthleteVision kombiniert Workouts, Wohlbefinden und Motivation
+                in einer App. Klar erklärte Insights passen jede Einheit an dein
+                Tagesgefühl an – ohne komplizierte Tools.
               </p>
             </div>
 
@@ -319,7 +319,7 @@ const Landing = () => {
                 Für ambitionierte Alltagsathlet:innen gemacht
               </Badge>
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Performance-Intelligenz, die dich weiterbringt
+                Smarter Trainingscoach, der dich weiterbringt
               </h2>
               <p className="mx-auto max-w-2xl text-base text-muted-foreground">
                 Von ersten Fitness-Zielen bis zur Regeneration nach dem Longrun
@@ -473,8 +473,8 @@ const Landing = () => {
               Starte heute in deine nächste Trainingsphase.
             </h2>
             <p className="max-w-2xl text-base text-muted-foreground">
-              Hol dir Zugang zum Demo-Dashboard, erstelle dein Profil und
-              erlebe, wie sich AthleteVision an deine Fitnessroutine anpasst.
+              Hol dir Zugang zum Demo-Dashboard, erstelle dein Profil und erlebe
+              deinen digitalen Trainingsbuddy für jede Alltagsroutine.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
