@@ -47,7 +47,7 @@ const DataInput = () => {
       saveMetrics(metrics);
 
       toast.success("Training session saved and analyzed!");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error('Error saving session:', error);
       toast.error("Failed to save session. Please try again.");
@@ -78,7 +78,7 @@ const DataInput = () => {
       saveMetrics(metrics);
 
       toast.success(`Imported ${parsedSessions.length} sessions successfully!`);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error('Error parsing CSV:', error);
       toast.error("Failed to parse CSV. Please check the format.");
@@ -94,7 +94,7 @@ const DataInput = () => {
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+            <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
@@ -226,7 +226,7 @@ const DataInput = () => {
                     <Save className="h-4 w-4" />
                     {loading ? "Saving..." : "Save & Analyze"}
                   </Button>
-                  <Button type="button" variant="outline" onClick={() => navigate("/")} disabled={loading}>
+                  <Button type="button" variant="outline" onClick={() => navigate("/dashboard")} disabled={loading}>
                     Cancel
                   </Button>
                 </div>

@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { loadMetrics, loadSessions } from "@/lib/athleteVision";
+import AppTopBar from "@/components/layout/AppTopBar";
 
 const Analysis = () => {
-  const navigate = useNavigate();
   const [metrics] = useState(() => loadMetrics());
   const [chartData] = useState(() => {
     const sessions = loadSessions().slice(-7);
@@ -20,23 +17,14 @@ const Analysis = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Performance Analysis</h1>
-              <p className="text-muted-foreground">Detailed insights and trends</p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppTopBar />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Performance Analysis</h1>
+          <p className="text-muted-foreground">Detailed insights and Trends auf einen Blick</p>
+        </div>
         <div className="grid gap-6">
           {/* Training Load & RPE Chart */}
           <Card>
