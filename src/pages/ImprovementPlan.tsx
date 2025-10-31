@@ -71,7 +71,7 @@ const ImprovementPlan = () => {
       const currentProfile = loadUserProfile();
       if (!currentProfile) {
         toast.error("Complete your athlete setup first so we can tailor the plan");
-        navigate("/user-setup");
+        navigate("/profile");
         return;
       }
 
@@ -133,7 +133,7 @@ const ImprovementPlan = () => {
         <header className="border-b border-border bg-card">
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+              <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
@@ -151,7 +151,7 @@ const ImprovementPlan = () => {
                 <p className="text-sm text-primary/80">
                   Before we can build your plan, complete the athlete setup with your sport, goal and availability.
                 </p>
-                <Button className="mt-4" onClick={() => navigate("/user-setup")}>Start Athlete Setup</Button>
+                <Button className="mt-4" onClick={() => navigate("/profile")}>Start Athlete Setup</Button>
               </CardContent>
             </Card>
           )}
@@ -185,7 +185,7 @@ const ImprovementPlan = () => {
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+            <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex-1">
@@ -195,7 +195,7 @@ const ImprovementPlan = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => navigate("/user-setup")}>
+              <Button variant="outline" onClick={() => navigate("/profile")}> 
                 Adjust Profile
               </Button>
               <PlanGeneratorDialog
